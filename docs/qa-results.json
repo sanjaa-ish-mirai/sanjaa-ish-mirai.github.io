@@ -1,0 +1,27 @@
+{
+  "testedAt": "2026-10-14T07:44:42.662Z",
+  "browser": "Playwright Chromium",
+  "viewports": [
+    1512,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "checks": [
+    "Existing v1 progress and all three note formats preserved; dashboard has 4 modules and 30 lessons",
+    "Continue learning resumes the saved lesson; both desktop sidebars collapse",
+    "All original course/quiz data and 41 numerical function bodies match the audit snapshot",
+    "All 30 lessons, all sliders, KaTeX equations and section outlines work without browser errors",
+    "Numerical golden checks: aliasing, quantization, temporal frequency, Gaussian DC, padding, convolution, depth uncertainty and backpropagation",
+    "Day 1/2 quiz scoring 12/12, advanced quiz, retry and numerical scoring; solutions hidden until submitted",
+    "Per-lesson notes survive refresh across both legacy and advanced formats",
+    "Legacy v1 import, full JSON export/import round trip and invalid-backup data-loss protection",
+    "Lesson search, keyboard previous/next, section anchors and reading navigation",
+    "All lessons at desktop, tablet and 390/320px mobile widths; mobile drawers, focus handling and light theme",
+    "Offline reload, local fonts/KaTeX and laboratories work from cached static assets",
+    "Exact GitHub Pages artifact served under a project path: assets, legacy redirect and offline reload",
+    "Stereo disparity-noise label matches σd before/after input and Reset"
+  ],
+  "browserErrors": []
+}

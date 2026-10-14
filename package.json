@@ -1,0 +1,13 @@
+{
+  "name": "vision-theory-lab",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Offline-first interactive computer vision textbook; no production build required.",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "test": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}
