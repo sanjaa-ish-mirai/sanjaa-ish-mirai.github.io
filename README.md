@@ -2,8 +2,16 @@
 
 An interactive computer vision textbook in Mongolian and English: 30 lessons
 from image formation to stereo geometry, visual odometry and deep learning.
-The redesigned workspace includes a learning dashboard, searchable curriculum,
+The primary goal is **RGB/depth camera + LiDAR + IMU localization and understanding FAST-LIVO2**. The workspace includes a learning dashboard, searchable curriculum,
 section outline, interactive scientific laboratories, assessments and local notes.
+
+Open **Localization → FAST-LIVO2** for a dependency-driven pathway with 6
+mathematical foundations, 6 sensor-fusion studios and 19 selected original lessons.
+All 30 original lessons remain available. The pathway has 31 study nodes; the
+complete site has 42 lessons/studios.
+
+Read the [printable learning-path document](docs/LOCALIZATION_PATH.html), including
+sensor roles, prerequisites, source-reading order and hardware/bag evaluation tasks.
 
 ## Run locally
 
@@ -36,7 +44,8 @@ JetBrains Mono are included in `assets/`; no CDN or backend is needed.
 5. Open **https://sanjaa-ish-mirai.github.io/**.
 
 Every subsequent push to `course` redeploys the site. The workflow publishes
-`index.html`, the legacy URL redirect, `.nojekyll`, `sw.js`, and the entire `assets/` directory. Documentation,
+`index.html`, the legacy URL redirect, `.nojekyll`, `sw.js`, and the entire `assets/` directory. The printable
+`docs/LOCALIZATION_PATH.html` is also published and cached offline. QA reports,
 screenshots and test tooling are excluded from the published artifact.
 
 There is no build step. Publishing only `index.html` would omit the styles,
@@ -51,6 +60,11 @@ run succeeded. The old HTML filename redirects to the root entry point and prese
 
 ## Learning workspace
 
+- **Localization pathway:** explore prerequisite relationships, follow a recommended
+  next lesson, and connect mathematical foundations to IMU, timing/deskew, sensor
+  measurement models, filtering, LiDAR planes and direct visual residuals. Sensor
+  roles distinguish optional depth camera input from the official RGB/LiDAR/IMU
+  FAST-LIVO2 pipeline. The original upstream source revision is linked per lesson.
 - **Dashboard:** continue the last lesson, inspect module progress, open any of
   the 30 lessons, and experiment with a live sampling preview.
 - **Course explorer:** four collapsible modules; search English or Mongolian
@@ -83,6 +97,12 @@ work first if you want to keep both copies.
 
 Section bookmarks and collapsed module preferences use a separate UI storage key.
 Numerical practice responses are temporary; original quiz scores persist.
+New studio notes, concept/numerical answers and understood status use an optional
+`localization` field in the existing state. `lastLearningNode` resumes a new studio
+without changing original day IDs. Both fields round-trip through the v1 JSON
+backup; importing an old backup remains supported. A studio can be marked
+understood after both checks are correct.
+
 Nothing is uploaded to a server or synchronized between devices.
 
 Browser storage is tied to the site origin. Notes saved in a locally opened HTML
@@ -106,11 +126,16 @@ External supplementary reading links still require internet access. Direct
 | `assets/js/laboratories.js` | Original 41 scientific/numerical functions |
 | `assets/js/learning.js` | Original persistent state, lesson rendering and assessments |
 | `assets/js/platform.js` | Dashboard, navigation, reusable lesson/lab enhancements and validated restore |
+| `assets/js/localization-data.js` | New fundamentals/sensor content, prerequisites and recommended stage order |
+| `assets/js/localization-labs.js` | Twelve deterministic numerical/SVG teaching experiments |
+| `assets/js/localization-course.js` | Studio lesson rendering, assessments and validated optional state |
+| `assets/css/localization.css` | Learning-path graph, sensor roles and responsive studio/document styles |
+| `docs/LOCALIZATION_PATH.html` | Printable goal-oriented course and source-reading document |
 | `assets/css/platform.css` | Design tokens, reusable components, typography and responsive layouts |
 | `assets/css/lessons.css` | Existing lesson-specific diagrams and laboratory styles |
 | `assets/vendor/katex/`, `assets/fonts/` | Vendored offline assets and their licenses |
 | `sw.js` | Static offline cache; no background tracking or server storage |
-| `tests/browser.cjs` | Functional, numerical, persistence, responsive and offline browser checks |
+| `tests/browser.cjs`, `tests/localization.cjs` | Original-course and new-path functional, numerical, persistence, responsive and offline checks |
 
 The reusable UI patterns are `objective-card` (learning objectives), `formula`
 (EquationBlock), `derivation-step` (MathematicalDerivation), `interactive-lab`,
@@ -125,7 +150,7 @@ Node.js is needed only for development tests. In one terminal, start the static
 server as above. In another:
 
 ```sh
-npm install
+npm ci
 npx playwright install chromium
 npm test
 ```
@@ -144,3 +169,17 @@ See [QA notes](docs/QA.md) for coverage and scientific boundaries.
 - [Desktop laboratory](docs/screenshots/desktop-laboratory.png)
 - [Mobile dashboard](docs/screenshots/mobile-dashboard.png)
 - [Mobile laboratory](docs/screenshots/mobile-laboratory.png)
+
+## Automatic agent publishing
+
+[AGENT.md](AGENT.md), referenced by [AGENTS.md](AGENTS.md), records the owner’s
+authorization to commit and push completed, tested website work automatically.
+Agents stage task-related changes only, preserve user data/science, and never
+force-push or rewrite published history. The current branch is `course`.
+
+## New pathway screenshots
+
+- [Desktop localization path](docs/screenshots/localization-path-desktop.png)
+- [Mobile localization path](docs/screenshots/localization-path-mobile.png)
+- [Direct visual residual laboratory](docs/screenshots/localization-photometric-desktop.png)
+- [Mobile deskew laboratory](docs/screenshots/localization-lab-mobile.png)

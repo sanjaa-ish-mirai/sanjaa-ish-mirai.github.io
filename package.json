@@ -5,7 +5,7 @@
   "description": "Offline-first interactive computer vision textbook; no production build required.",
   "scripts": {
     "dev": "python3 -m http.server 8000",
-    "test": "node tests/browser.cjs"
+    "test": "node tests/browser.cjs && node tests/localization.cjs"
   },
   "devDependencies": {
     "playwright": "1.64.0"

@@ -1,8 +1,13 @@
 // Static offline shell. Navigation is network-first so new deployments appear on refresh.
-const CACHE = 'vision-theory-lab-static-v1';
+const CACHE = 'vision-theory-lab-static-v2';
 const ASSETS = [
   "./",
   "./index.html",
+  "docs/LOCALIZATION_PATH.html",
+  "assets/css/localization.css",
+  "assets/js/localization-data.js",
+  "assets/js/localization-labs.js",
+  "assets/js/localization-course.js",
   "./Vision_Theory_Lab_Days_01-30.html",
   "assets/js/learning.js",
   "assets/js/course-data.js",

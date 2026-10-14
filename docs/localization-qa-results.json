@@ -1,0 +1,21 @@
+{
+  "testedAt": "2026-10-14T09:12:26.591Z",
+  "browser": "Chromium",
+  "viewports": [
+    1512,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "checks": [
+    "12 studios, complete acyclic 42-node prerequisite graph, topologically valid localization path and clickable dependency explorer",
+    "Numerical reference cases: zero vectors, singular matrices, finite differences, variance scaling, least squares, IMU drift, range/depth, exact deskew, Kalman fusion, plane degeneracy and photometric loss",
+    "All 12 lessons: sliders alter actual SVG calculations, Reset deterministic, answers hidden before valid submission, numerical/concept scoring, understood status and notes",
+    "New notes/completion/resume survive refresh; optional localization state round-trips in v1 JSON; old v1 backups still restore original fields",
+    "Gradient step and closed-form fit reduce the same loss; tangential plane motion leaves residual unchanged",
+    "All new lessons/path at desktop, tablet and mobile widths; mobile search, navigation, notes focus and screenshots",
+    "New course, diagrams, KaTeX and printable learning-path document reload offline; zero browser errors"
+  ],
+  "browserErrors": []
+}

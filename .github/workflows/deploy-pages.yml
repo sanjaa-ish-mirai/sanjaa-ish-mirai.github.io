@@ -25,6 +25,8 @@ jobs:
           mkdir _site
           cp index.html Vision_Theory_Lab_Days_01-30.html .nojekyll sw.js _site/
           cp -R assets _site/
+          mkdir _site/docs
+          cp docs/LOCALIZATION_PATH.html _site/docs/
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:

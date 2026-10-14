@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Компьютер хараа → Deep Learning: 30 өдрийн онолын интерактив сургалт. 30 өдрийн бүрэн сургалтын material, math derivations, interactive labs."/>
-<title>Vision Theory Lab · Computer Vision → Deep Learning</title>
+<meta name="description" content="Computer Vision, RGB/depth camera, LiDAR ба IMU localization → FAST-LIVO2. Суурь математик, 30 core lesson, 12 sensor/fundamentals studio, interactive laboratories."/>
+<title>Vision Theory Lab · Sensor Localization → FAST-LIVO2</title>
 <link rel="stylesheet" href="assets/vendor/katex/katex.min.css"/>
 <link rel="stylesheet" href="assets/css/lessons.css"/>
 <link rel="stylesheet" href="assets/css/platform.css"/>
+<link rel="stylesheet" href="assets/css/localization.css"/>
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Үндсэн агуулга руу очих</a>
@@ -16,13 +17,15 @@
 <aside class="sidebar" id="sidebar" aria-label="Course navigation">
 <button class="sidebar-close btn only-mobile" id="closeSidebar" aria-label="Жагсаалт хаах">✕</button>
  <div class="brand"><div class="brand-top"><div class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 10 16 3l12 7v12l-12 7-12-7Z M4 10l12 7 12-7 M16 17v12 M10 7l12 7v11" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div><div><strong>Vision Theory Lab</strong><small>INTERACTIVE TEXTBOOK</small></div></div><p>Computer Vision → Deep Learning<br/>30 өдрийн онолын сургалт</p></div>
- <div class="sidebar-tools"><button class="dashboard-link" id="dashboardButton"><span>▦</span> Learning dashboard</button><label class="search-field"><span aria-hidden="true">⌕</span><input id="lessonSearch" type="search" placeholder="Хичээл хайх…" aria-label="Хичээл хайх"/><kbd>/</kbd></label></div><div class="sidebar-scroll"><div class="rail-heading">COURSE EXPLORER <span>30 DAYS</span></div><div id="courseNav"></div></div>
+ <div class="sidebar-tools"><button class="dashboard-link" id="dashboardButton"><span>▦</span> Learning dashboard</button><button class="dashboard-link" id="localizationButton"><span>⌘</span> Localization → FAST-LIVO2</button><label class="search-field"><span aria-hidden="true">⌕</span><input id="lessonSearch" type="search" placeholder="Хичээл хайх…" aria-label="Хичээл хайх"/><kbd>/</kbd></label></div><div class="sidebar-scroll"><div class="rail-heading">COURSE EXPLORER <span>42 LESSONS</span></div><div id="localizationNav"></div><div id="courseNav"></div></div>
  <div class="sidebar-foot"><strong id="overallProgress">0 / 6</strong> · <span id="progressSubject">Day 1-ийн уншсан хэсэг</span><div class="mini-track"><span id="progressFill"></span></div><span id="autosaveState">Энэ төхөөрөмжид автоматаар хадгална</span></div>
 </aside>
 <main class="content" id="mainContent" tabindex="-1">
 <header class="topbar"><div class="topbar-actions"><button class="btn" id="menuButton" aria-label="Хичээлийн жагсаалт нээх">☰</button><div class="topbar-title"><span class="breadcrumb-home">Workspace</span><span class="breadcrumb-divider">/</span><span id="topbarDay">Overview</span></div></div><div class="topbar-actions"><button class="btn ghost" id="outlineToggle" aria-label="Хичээлийн outline нээх" aria-expanded="false">☷</button><button class="btn ghost" id="restoreBackup" title="JSON backup сэргээх">↑ <span>Restore</span></button><button class="btn ghost" id="themeBtn" title="Өнгө солих" aria-label="Өнгө солих">◐</button><button class="btn" id="exportBtn" title="Ахиц болон тэмдэглэлээ JSON файл болгон хадгалах">↓ <span>Backup</span></button><button class="btn" id="printBtn" title="Хичээлийг PDF болгох / хэвлэх">⎙ <span>PDF</span></button></div></header>
 <div class="reading-track" aria-hidden="true"><span id="readingFill"></span></div>
 <div class="page"><section id="dashboard" aria-label="Learning dashboard"></section>
+<section id="localizationPath" aria-label="Localization learning path" hidden></section>
+<div id="localizationLesson" hidden></div>
 <div id="lesson1">
 <section class="hero" id="start">
  <div class="eyebrow">Week 01 / Day 01 · Fundamental Theory</div>
@@ -314,5 +317,8 @@
 <script defer src="assets/js/course-data.js"></script>
 <script defer src="assets/js/laboratories.js"></script>
 <script defer src="assets/js/learning.js"></script>
+<script defer src="assets/js/localization-data.js"></script>
+<script defer src="assets/js/localization-labs.js"></script>
+<script defer src="assets/js/localization-course.js"></script>
 <script defer src="assets/js/platform.js"></script>
 </body></html>

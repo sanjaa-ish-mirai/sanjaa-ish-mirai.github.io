@@ -52,3 +52,20 @@ The service worker needs a successful online visit before offline use and runs
 only on HTTPS or localhost. Supplementary reading links require internet access.
 Progress remains browser-local; use the v1 JSON backup to transfer it. New UI
 bookmarks and module expansion preferences are separate from the original backup.
+
+## FAST-LIVO2 pathway extension
+
+`tests/localization.cjs` checks all 12 new studios and the complete 42-node
+prerequisite graph. The recommended 31-node route must be acyclic and respect
+prerequisite order. It verifies numerical reference cases, actual SVG response
+to sliders, deterministic Reset, hidden solutions, assessment/completion rules,
+notes refresh, optional v1 backup fields, optimization/tangent actions, all five
+responsive widths, mobile focus and offline document/lesson reload. Results are
+recorded in `localization-qa-results.json`.
+
+New models explicitly distinguish simplified scalar/2D/1D teaching experiments
+from the full 3D FAST-LIVO2 implementation. The source-reading document cites
+upstream revision `0d2c0346107b75b59934975adec9a6eeeb913c64`. RGB/depth/LiDAR/IMU
+roles, unit/frame/time conventions, optional depth input and ROS1 upstream versus
+ROS2 integration are explained. No original numerical function or course/quiz
+data was rewritten.
