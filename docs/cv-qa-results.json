@@ -1,0 +1,26 @@
+{
+  "testedAt": "2026-10-19T09:36:06.902Z",
+  "browser": "Chromium",
+  "viewports": [
+    1512,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "checks": [
+    "Normalized Sobel derivative: constant image zero, unit ramp Ix=1/Iy=0, Gaussian preserves DC",
+    "Harris structure tensor distinguishes true flat/edge/corner image patches and detects the actual corner",
+    "Complex 2D DFT/inverse round-trip, conjugate peaks, exact phase, ideal rejection and Gaussian transfer gain",
+    "SAD/SSD recover true stereo disparity/depth; flat and repeated patterns reject ambiguous depth",
+    "Lucas–Kanade solves subpixel translation with decreasing image loss and detects aperture/flat degeneracy even with noise",
+    "Seeded RANSAC normalized geometry, robust consensus, slope accuracy, precision/recall and finite-sample pair probability",
+    "Six direct lab URLs, lazy initialization, actual slider/visual response, KaTeX, deterministic Reset and disabled unobservable LK updates",
+    "Pixel/patch click inspector, keyboard slider alternatives, complex spectrum-bin inspection and visible ambiguity warnings",
+    "All six open labs at desktop, tablet and 390/320px mobile sizes without horizontal overflow; screenshots captured",
+    "All mapped lesson integrations, two coexisting Day 16 labs, original canvas retained, unchanged note persistence",
+    "Offline deep-link reload and DFT controls work with zero browser errors",
+    "Exact GitHub Pages artifact under /course/: six direct links, offline reload and no missing assets"
+  ],
+  "browserErrors": []
+}

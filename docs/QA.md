@@ -69,3 +69,23 @@ upstream revision `0d2c0346107b75b59934975adec9a6eeeb913c64`. RGB/depth/LiDAR/IM
 roles, unit/frame/time conventions, optional depth input and ROS1 upstream versus
 ROS2 integration are explained. No original numerical function or course/quiz
 data was rewritten.
+
+## Computer vision pixel-lab extension
+
+`tests/cv.cjs` verifies constant/ramp Sobel derivatives, Gaussian DC preservation,
+Harris flat/edge/corner responses, complex DFT/inverse normalization and phase,
+known SAD/SSD disparity/depth, ambiguity rejection, subpixel LK convergence and
+aperture failure, and deterministic robust line estimation. Browser checks cover
+all six direct links, every mapped lesson, native disclosure/lazy initialization,
+slider-driven images, deterministic Reset, pixel and keyboard inspectors, mobile
+widths down to 320px, original note persistence and offline DFT operation. Results
+are in `cv-qa-results.json`; screenshots use the `cv-` prefix.
+
+The original 41 numerical functions, course questions and backup format are
+unchanged. Existing conceptual laboratories remain available. Models explicitly
+identify synthetic truth, heuristic thresholds and excluded real-sensor effects.
+RANSAC is a 2D line-verification example, not a full F-matrix/PnP estimator. The
+DFT is computed directly on a periodic 32×32 input, not a production image FFT.
+
+When validating a working tree with uncommitted QA artifacts, run the original
+report-generating suites in an isolated copy to preserve those local files.

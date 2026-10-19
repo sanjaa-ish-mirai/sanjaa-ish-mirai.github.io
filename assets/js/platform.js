@@ -102,7 +102,7 @@
       <div class="signal-preview"><div class="preview-label"><span>LIVE EXPERIMENT / 01</span><span>Signal → Samples</span></div><svg id="dashboardSignal" viewBox="0 0 440 205" role="img" aria-label="Continuous sinusoid and 24 discrete samples"></svg><div class="preview-footer"><label for="previewFrequency">Frequency</label><input id="previewFrequency" type="range" min="1" max="20" value="4" step="1"/><output id="previewFrequencyOut" for="previewFrequency">4 cyc</output></div><p class="preview-caption" id="previewCaption">Frequency-ийг өөрчилж sampling ambiguity-г ажиглаарай.</p></div></section>
       <div class="dashboard-stats"><div class="dashboard-stat"><small>Course completion</small><strong>${pct}<span style="font-size:13px;color:var(--muted)">%</span></strong><div class="stat-meter"><div class="mini-track"><span style="width:${pct}%"></span></div><span style="font-size:9px;color:var(--muted)">${total}/${all} sections</span></div></div><div class="dashboard-stat"><small>Lessons completed</small><strong>${String(done.length).padStart(2,'0')}<span style="font-size:13px;color:var(--muted)"> / 30</span></strong><span>${started.length} in progress</span></div><div class="dashboard-stat"><small>Learning modules</small><strong>04</strong><span>Foundations → capstones</span></div><div class="dashboard-stat"><small>Visual experiments</small><strong>22<span style="font-size:13px;color:var(--muted)"> +</span></strong><span>Explore · predict · verify</span></div></div>
       <div class="dashboard-section-heading"><div><h2>Your learning path</h2><p>Дөрвөн module. Нэг холбогдсон ойлголт.</p></div><span>01 — 30 / OPEN CURRICULUM</span></div>
-      <div id="localizationDashboardCard"></div><div class="module-grid">${MODULES.map((m,i)=>{
+      <div id="cvDashboardCatalog"></div><div id="localizationDashboardCard"></div><div class="module-grid">${MODULES.map((m,i)=>{
         const list=COURSE.filter(l=>l.d>=m.start&&l.d<=m.end),n=list.filter(l=>completed(l.d)).length,count=list.reduce((v,l)=>v+completedCount(l.d),0),max=list.reduce((v,l)=>v+sectionKeys(l.d).length,0);
         const target=list.find(l=>!completed(l.d))||list[0];
         return `<article class="module-card" style="--module-color:${m.color}"><div class="module-card-top"><span class="module-number">MODULE ${String(i+1).padStart(2,'0')}</span><span class="module-days">DAY ${String(m.start).padStart(2,'0')} — ${m.end}</span></div><div class="module-body"><div class="module-icon">${icon(m.icon)}</div><div><h3>${m.name}</h3><p>${m.topics}</p><p>${m.description}</p></div></div><div class="module-card-bottom"><span>${n} / ${list.length} lessons complete</span><button data-open-day="${target.d}">${count?'Continue module':'Explore module'} →</button></div><div class="module-progress" role="progressbar" aria-label="${m.name} progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(count/max*100)}"><span style="width:${count/max*100}%"></span></div></article>`;
@@ -111,6 +111,7 @@
       <div class="dashboard-bottom"><section><div class="dashboard-section-heading"><h2>${done.length?'Previously completed':'Pick up where you left off'}</h2><span>${done.length?'COMPLETED':'CONTINUE'}</span></div><div class="lesson-list">${lessonList(done.length?done.slice(-3).reverse():started.length?started.slice(0,3):[COURSE[state.lastDay-1]])}</div></section><section><div class="dashboard-section-heading"><h2>Up next</h2><span>YOUR NEXT STEPS</span></div><div class="lesson-list">${next.length?lessonList(next):'<p class="empty-copy">Бүх хичээлийг судалжээ. Өмнөх лабораториудаа дахин туршаарай.</p>'}</div></section></div>
       <div class="concept-map" aria-label="Topic relationships"><span>Image signals</span><i>→</i><span>Features</span><i>→</i><span>Geometry & depth</span><i>→</i><span>Motion & pose</span><i>→</i><span>Learned representations</span></div><div class="dashboard-foot"><span>VISION THEORY LAB · Understand through visualization.</span><span>Progress stays on your device. Export a backup to keep it.</span></div>`;
     renderLocalizationDashboard();
+    CVLabs.dashboard($('cvDashboardCatalog'),openPixelLab);
     $('continueLearning').addEventListener('click',()=>{if(state.lastLearningNode&&LocalizationCourse.find(state.lastLearningNode)){openLearningNode(state.lastLearningNode);return;}const d=state.lastDay;showDay(d);const anchor=preferences.sections[d];if(anchor)document.getElementById(anchor)?.scrollIntoView({block:'start'});});
     $('dashboard').querySelectorAll('[data-open-day]').forEach(b=>b.addEventListener('click',()=>showDay(Number(b.dataset.openDay))));
     $('previewFrequency').addEventListener('input',drawDashboardSignal);drawDashboardSignal();
@@ -183,6 +184,7 @@
       navEl.innerHTML=`<button data-lesson-prev><small>${d>1?'PREVIOUS LESSON':'LEARNING WORKSPACE'}</small>${d>1?'← '+escape(COURSE[d-2].t):'← Dashboard'}</button><button data-lesson-next><small>${d<30?'NEXT LESSON':'COURSE OVERVIEW'}</small>${d<30?escape(COURSE[d].t)+' →':'Dashboard →'}</button>`;
       navEl.querySelector('[data-lesson-prev]').addEventListener('click',()=>d>1?showDay(d-1):showDashboard());navEl.querySelector('[data-lesson-next]').addEventListener('click',()=>d<30?showDay(d+1):showDashboard());root.append(navEl);
     }
+    CVLabs.mount(root,d);
     addNumericCheck(root,d);
     if(d>2)enhanceAdvancedLab(d);
     if(!root.querySelector('.lesson-summary')){
@@ -293,7 +295,11 @@
   });
   let scrollPending=false;window.addEventListener('scroll',()=>{if(scrollPending||(view!=='lesson'&&view!=='studio'))return;scrollPending=true;requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-innerHeight;$('readingFill').style.width=(max>0?Math.min(100,scrollY/max*100):100)+'%';scrollPending=false;});},{passive:true});
   document.addEventListener('click',()=>{if(view==='lesson')updateOutlineProgress();});
-  window.addEventListener('hashchange',()=>{const match=/^#day(\d+)$/.exec(location.hash);if(match)showDay(Number(match[1]));else if(location.hash==='#dashboard')showDashboard();else if(location.hash==='#localization')showLocalizationPath();else if(location.hash.startsWith('#learn-'))openLearningNode(location.hash.slice(7));});
+  window.addEventListener('hashchange',()=>{const match=/^#day(\d+)$/.exec(location.hash);if(match)showDay(Number(match[1]));else if(location.hash==='#dashboard')showDashboard();else if(location.hash.startsWith('#cv-'))openPixelLab(location.hash.slice(4));else if(location.hash==='#localization')showLocalizationPath();else if(location.hash.startsWith('#learn-'))openLearningNode(location.hash.slice(7));});
+  function openPixelLab(id){
+    const spec=CVLabs.specs.find(spec=>spec.id===id);if(!spec)return;
+    showDay(spec.days[0]);CVLabs.open($('plannedLesson'),id);history.replaceState(null,'','#cv-'+id);
+  }
   function openLearningNode(id){
     if(/^day\d+$/.test(id)){showDay(Number(id.slice(3)));return;}
     const unit=LocalizationCourse.find(id);if(!unit)return;
@@ -353,7 +359,8 @@
   renderQuiz();
   const initialHash=location.hash;
   const initialDay=/^#day(\d+)$/.exec(initialHash);
-  if(initialHash==='#localization')showLocalizationPath();
+  if(initialHash.startsWith('#cv-')&&CVLabs.specs.some(spec=>spec.id===initialHash.slice(4)))openPixelLab(initialHash.slice(4));
+  else if(initialHash==='#localization')showLocalizationPath();
   else if(initialHash.startsWith('#learn-')&&LocalizationCourse.find(initialHash.slice(7)))openLearningNode(initialHash.slice(7));
   else if(initialDay&&Number(initialDay[1])>=1&&Number(initialDay[1])<=30)showDay(Number(initialDay[1]));
   else if(initialHash&&initialHash!=='#dashboard'){showDay(initialHash.startsWith('#d2-')?2:state.lastDay);document.getElementById(initialHash.slice(1))?.scrollIntoView({block:'start'});}

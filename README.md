@@ -183,3 +183,45 @@ force-push or rewrite published history. The current branch is `course`.
 - [Mobile localization path](docs/screenshots/localization-path-mobile.png)
 - [Direct visual residual laboratory](docs/screenshots/localization-photometric-desktop.png)
 - [Mobile deskew laboratory](docs/screenshots/localization-lab-mobile.png)
+
+## Computer vision pixel laboratories
+
+The existing lessons now include six additional, lazily initialized experiments.
+Open them from the dashboard collection or use a direct link:
+
+| Experiment | Lessons | Computation |
+| --- | --- | --- |
+| [Gaussian → Sobel](https://sanjaa-ish-mirai.github.io/#cv-edges) | Days 3, 6, 24 | Seeded noisy image, Gaussian smoothing, normalized Sobel, threshold mask and pixel inspector |
+| [2D DFT filtering](https://sanjaa-ish-mirai.github.io/#cv-fourier) | Days 4, 5 | Complex separable 32×32 direct DFT, frequency gain, inverse transform and bin phase/magnitude inspection |
+| [Harris features](https://sanjaa-ish-mirai.github.io/#cv-harris) | Day 7 | Actual gradient structure tensors, eigenvalues, response map and nonmaximum-suppressed corners |
+| [Stereo matching](https://sanjaa-ish-mirai.github.io/#cv-stereo) | Days 12, 13, 14, 29 | SAD/SSD block costs, disparity search, ambiguity rejection and metric depth |
+| [Lucas–Kanade flow](https://sanjaa-ish-mirai.github.io/#cv-flow) | Days 15, 16 | Bilinear image sampling, finite-difference Jacobians, normal-equation updates and backtracking |
+| [RANSAC geometry](https://sanjaa-ish-mirai.github.io/#cv-ransac) | Days 16, 18, 19, 30 | Seeded two-point line hypotheses, orthogonal residuals, consensus and TLS refinement |
+
+These supplement the original conceptual diagrams; they do not replace existing
+lessons or laboratories. The site still has 42 lessons/studios. Open an
+experiment to initialize it. Controls and pixel/patch selection update real
+computed images and measurements. Sliders also provide keyboard alternatives
+for pixel/patch and spectrum-bin inspection. Every experiment has Reset and
+model/unit/limitation notes.
+
+Flat/repeating stereo patches reject ambiguous depth. Edge/flat optical-flow
+patches disable an unobservable two-dimensional solve. This exposes limitations
+rather than returning a plausible-looking estimate. Synthetic ground truth is
+labelled separately from estimated results. The models are small controlled
+experiments, not full real-camera stereo, dense optical flow or a PnP solver.
+
+`assets/js/cv-math.js` owns the numerical algorithms; `assets/js/cv-labs.js` owns
+lab presentation and lesson links; `assets/css/cv-labs.css` provides the shared
+responsive design. No production dependencies or build step were added.
+Experiment parameters reset when the lesson is reconstructed. Use the original
+lesson notes to record observations; existing notes/progress/JSON formats are
+unchanged. The new assets are cached by the service worker.
+
+`tests/cv.cjs` checks numerical reference cases, direct links, lazy initialization,
+image/plot response, Reset, keyboard/pixel controls, ambiguous cases, mapped
+lessons, mobile layouts, note persistence and offline operation. Its report is
+`docs/cv-qa-results.json`. Screenshots:
+[edge pipeline](docs/screenshots/cv-edges-desktop.png),
+[stereo cost curve](docs/screenshots/cv-stereo-desktop.png),
+[mobile Harris](docs/screenshots/cv-harris-mobile.png).
