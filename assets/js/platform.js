@@ -43,6 +43,7 @@
   let preferences = {sections:{},closedModules:[]};
   try { const p=JSON.parse(localStorage.getItem(UI_KEY)||'{}'); if(p&&typeof p==='object') {preferences.sections=p.sections&&typeof p.sections==='object'?p.sections:{};preferences.closedModules=Array.isArray(p.closedModules)?p.closedModules:[];} } catch {}
   LocalizationCourse.initialize();
+  YOLO11Course.initialize();
   let studioUnit=null;
   let view='dashboard', dayOneInitialized=false, sectionObserver=null, toastTimer=null;
   const baseShowDay=showDay, baseProgress=progress, baseAdvancedProgress=advancedProgress, baseRenderAdvanced=renderAdvanced;
@@ -57,7 +58,7 @@
   function savePreferences(){try{localStorage.setItem(UI_KEY,JSON.stringify(preferences));}catch{}}
   function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3500);}
   function formula(element,tex,display=false){if(window.katex){try{katex.render(tex,element,{displayMode:display,throwOnError:true,trust:false,strict:'ignore'});}catch{element.textContent=tex;}}else element.textContent=tex;}
-  function setView(next){view=next;document.body.classList.toggle('dashboard-view',next==='dashboard'||next==='path');$('localizationPath').hidden=next!=='path';$('localizationLesson').hidden=next!=='studio';$('localizationButton').classList.toggle('active',next==='path'||next==='studio');$('dashboard').hidden=next!=='dashboard';$('outlineToggle').hidden=next==='dashboard'||next==='path';$('dashboardButton').classList.toggle('active',next==='dashboard');}
+  function setView(next){view=next;$('yolo11Course').hidden=next!=='yolo';document.body.classList.toggle('dashboard-view',next==='dashboard'||next==='path');$('localizationPath').hidden=next!=='path';$('localizationLesson').hidden=next!=='studio';$('localizationButton').classList.toggle('active',next==='path'||next==='studio');$('dashboard').hidden=next!=='dashboard';$('outlineToggle').hidden=next==='dashboard'||next==='path';$('dashboardButton').classList.toggle('active',next==='dashboard');}
 
   // Four curriculum modules; the two capstones belong to the final module.
   nav = function renderCourseNavigation(){
@@ -79,7 +80,8 @@
     }));
     if(query)$('courseNav').setAttribute('aria-label',matches+' search results');
     const studioMatches=renderLocalizationNavigation(query);
-    if(query&&!matches&&studioMatches)$('courseNav').innerHTML='';
+    const yoloMatches=YOLO11Course.navigation($('yoloNav'),query,openYOLO11,view==='yolo'?YOLO11Course.get().lastSection:null);
+    if(query&&!matches&&(studioMatches||yoloMatches))$('courseNav').innerHTML='';
   };
   function icon(type){
     const paths={
@@ -113,6 +115,7 @@
     renderLocalizationDashboard();
     CVLabs.dashboard($('cvDashboardCatalog'),openPixelLab);
     GeometryLabs.dashboard($('cvDashboardCatalog'),openGeometryLab);
+    YOLO11Course.dashboard($('cvDashboardCatalog'),openYOLO11);
     $('continueLearning').addEventListener('click',()=>{if(state.lastLearningNode&&LocalizationCourse.find(state.lastLearningNode)){openLearningNode(state.lastLearningNode);return;}const d=state.lastDay;showDay(d);const anchor=preferences.sections[d];if(anchor)document.getElementById(anchor)?.scrollIntoView({block:'start'});});
     $('dashboard').querySelectorAll('[data-open-day]').forEach(b=>b.addEventListener('click',()=>showDay(Number(b.dataset.openDay))));
     $('previewFrequency').addEventListener('input',drawDashboardSignal);drawDashboardSignal();
@@ -198,6 +201,7 @@
   function lessonAnchors(){const root=rootFor(state.lastDay);return Array.from(root.querySelectorAll('.section[id],.adv-part[id]'));}
   function sectionLabel(section){return section.querySelector('h2')?.textContent||section.id;}
   function renderOutline(){
+    if(view==='yolo'){renderYOLOOutline();return;}
     if(view==='studio'){renderStudioOutline();return;}
     if(view!=='lesson')return;
     const d=state.lastDay,anchors=lessonAnchors(),m=moduleFor(d);
@@ -267,7 +271,7 @@
     const advanced={};
     for(let d=3;d<=30;d++){const a=p.advanced?.[d];if(!a||typeof a!=='object'||Array.isArray(a))continue;advanced[d]={sections:filtered(a.sections,ADV_SECTIONS),notes:typeof a.notes==='string'?a.notes:'',quiz:Number.isInteger(a.quiz)&&a.quiz>=0&&a.quiz<ADVANCED[d].quiz.options.length?a.quiz:null,checked:!!a.checked};}
     const d2=p.day2&&typeof p.day2==='object'?p.day2:{};
-    return {version:1,lastDay:Number.isInteger(p.lastDay)&&p.lastDay>=1&&p.lastDay<=30?p.lastDay:1,theme:p.theme==='light'?'light':'dark',sections:filtered(p.sections,SECTIONS),notes:typeof p.notes==='string'?p.notes:'',quiz:validateQuiz(p.quiz,QUESTIONS),quizChecked:!!p.quizChecked,day2:{sections:filtered(d2.sections,D2_SECTIONS),notes:typeof d2.notes==='string'?d2.notes:'',quiz:validateQuiz(d2.quiz,D2_QUIZ),quizChecked:!!d2.quizChecked},advanced,localization:LocalizationCourse.sanitize(p.localization),lastLearningNode:LocalizationCourse.validNode(p.lastLearningNode)?p.lastLearningNode:null};
+    return {version:1,lastDay:Number.isInteger(p.lastDay)&&p.lastDay>=1&&p.lastDay<=30?p.lastDay:1,theme:p.theme==='light'?'light':'dark',sections:filtered(p.sections,SECTIONS),notes:typeof p.notes==='string'?p.notes:'',quiz:validateQuiz(p.quiz,QUESTIONS),quizChecked:!!p.quizChecked,day2:{sections:filtered(d2.sections,D2_SECTIONS),notes:typeof d2.notes==='string'?d2.notes:'',quiz:validateQuiz(d2.quiz,D2_QUIZ),quizChecked:!!d2.quizChecked},advanced,localization:LocalizationCourse.sanitize(p.localization),yolo11:YOLO11Course.sanitize(p.yolo11),lastLearningNode:LocalizationCourse.validNode(p.lastLearningNode)?p.lastLearningNode:null};
   }
   // Replace the old import listener rather than registering two restore operations.
   const oldImport=$('importFile'),newImport=oldImport.cloneNode(true);oldImport.replaceWith(newImport);
@@ -295,12 +299,27 @@
     if(event.altKey&&event.key==='ArrowRight'&&view==='lesson'&&state.lastDay<30){event.preventDefault();showDay(state.lastDay+1);}
     if(event.altKey&&event.key==='ArrowLeft'&&view==='lesson'&&state.lastDay>1){event.preventDefault();showDay(state.lastDay-1);}
   });
-  let scrollPending=false;window.addEventListener('scroll',()=>{if(scrollPending||(view!=='lesson'&&view!=='studio'))return;scrollPending=true;requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-innerHeight;$('readingFill').style.width=(max>0?Math.min(100,scrollY/max*100):100)+'%';scrollPending=false;});},{passive:true});
+  let scrollPending=false;window.addEventListener('scroll',()=>{if(scrollPending||(view!=='lesson'&&view!=='studio'&&view!=='yolo'))return;scrollPending=true;requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-innerHeight;$('readingFill').style.width=(max>0?Math.min(100,scrollY/max*100):100)+'%';scrollPending=false;});},{passive:true});
   document.addEventListener('click',()=>{if(view==='lesson')updateOutlineProgress();});
-  window.addEventListener('hashchange',()=>{const match=/^#day(\d+)$/.exec(location.hash);if(match)showDay(Number(match[1]));else if(location.hash==='#dashboard')showDashboard();else if(location.hash.startsWith('#cv-'))openPixelLab(location.hash.slice(4));else if(location.hash.startsWith('#geo-'))openGeometryLab(location.hash.slice(5));else if(location.hash==='#localization')showLocalizationPath();else if(location.hash.startsWith('#learn-'))openLearningNode(location.hash.slice(7));});
+  window.addEventListener('hashchange',()=>{const match=/^#day(\d+)$/.exec(location.hash);if(match)showDay(Number(match[1]));else if(location.hash==='#dashboard')showDashboard();else if(location.hash.startsWith('#cv-'))openPixelLab(location.hash.slice(4));else if(location.hash.startsWith('#yolo11'))openYOLO11(location.hash.slice(8));else if(location.hash.startsWith('#geo-'))openGeometryLab(location.hash.slice(5));else if(location.hash==='#localization')showLocalizationPath();else if(location.hash.startsWith('#learn-'))openLearningNode(location.hash.slice(7));});
   function openPixelLab(id){
     const spec=CVLabs.specs.find(spec=>spec.id===id);if(!spec)return;
     showDay(spec.days[0]);CVLabs.open($('plannedLesson'),id);history.replaceState(null,'','#cv-'+id);
+  }
+  function renderYOLOOutline(){
+    YOLO11Course.outline($('outlineContent'),openYOLO11,exportBackup);
+    const count=YOLO11Course.get().sections.length;$('overallProgress').textContent=count+' / 10';$('progressSubject').textContent='YOLO11 study sections';$('progressFill').style.width=count*10+'%';
+  }
+  function openYOLO11(section='overview'){
+    if(!YOLO11Course.sections.some(s=>s.id===section))section='overview';
+    const rerender=view!=='yolo'||!$('yolo11Course').querySelector('h1');
+    setView('yolo');for(const id of ['lesson1','lesson2','plannedLesson'])$(id).hidden=true;
+    sectionObserver?.disconnect();YOLO11Course.get().lastSection=section;save();
+    if(rerender)YOLO11Course.render($('yolo11Course'),{change:()=>{renderYOLOOutline();nav();}});
+    history.replaceState(null,'','#yolo11-'+section);document.title='YOLO11 → Your Model · Vision Theory Lab';$('topbarDay').textContent='Applied vision / YOLO11';renderYOLOOutline();closeDrawers();nav();
+    const target=$('yolo11-'+section);if(section==='overview')window.scrollTo({top:0,behavior:'instant'});else target.scrollIntoView({block:'start'});
+    const title=(section==='overview'?$('yolo11Course'):target).querySelector(section==='overview'?'h1':'h2');title.tabIndex=-1;title.focus({preventScroll:true});
+    sectionObserver=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){$('outlineContent').querySelectorAll('[data-yolo-anchor]').forEach(a=>a.classList.toggle('active','yolo11-'+a.dataset.yoloAnchor===entry.target.id));}},{rootMargin:'-85px 0px -60% 0px'});$('yolo11Course').querySelectorAll('.yolo-section').forEach(el=>sectionObserver.observe(el));
   }
   function openGeometryLab(id){
     const spec=GeometryLabs.specs.find(spec=>spec.id===id);if(!spec)return;
@@ -366,7 +385,8 @@
   renderQuiz();
   const initialHash=location.hash;
   const initialDay=/^#day(\d+)$/.exec(initialHash);
-  if(initialHash.startsWith('#geo-')&&GeometryLabs.specs.some(spec=>spec.id===initialHash.slice(5)))openGeometryLab(initialHash.slice(5));
+  if(initialHash.startsWith('#yolo11'))openYOLO11(initialHash.slice(8));
+  else if(initialHash.startsWith('#geo-')&&GeometryLabs.specs.some(spec=>spec.id===initialHash.slice(5)))openGeometryLab(initialHash.slice(5));
   else if(initialHash.startsWith('#cv-')&&CVLabs.specs.some(spec=>spec.id===initialHash.slice(4)))openPixelLab(initialHash.slice(4));
   else if(initialHash==='#localization')showLocalizationPath();
   else if(initialHash.startsWith('#learn-')&&LocalizationCourse.find(initialHash.slice(7)))openLearningNode(initialHash.slice(7));

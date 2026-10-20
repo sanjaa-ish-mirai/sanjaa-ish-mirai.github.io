@@ -1,6 +1,13 @@
 // Static offline shell. Navigation is network-first so new deployments appear on refresh.
-const CACHE = 'vision-theory-lab-static-v4';
+const CACHE = 'vision-theory-lab-static-v5';
 const ASSETS = [
+  "assets/js/yolo11-data.js",
+  "assets/js/yolo11-lab.js",
+  "assets/js/yolo11-course.js",
+  "assets/css/yolo11.css",
+  "assets/examples/yolo11/run.py",
+  "assets/examples/yolo11/requirements.txt",
+  "assets/examples/yolo11/model-card-template.json",
   "assets/js/geometry-math.js",
   "assets/js/geometry-view.js",
   "assets/js/geometry-labs.js",

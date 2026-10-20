@@ -273,3 +273,60 @@ Run `node tests/geometry.cjs` against the local server for the focused suite, or
 and mobile screenshots use the `geometry-` prefix. These assets are cached by the
 service worker and are published by the existing GitHub Pages workflow without
 a build step or production package installation.
+
+## YOLO11 → your commercial model pathway
+
+Open [the new course](https://sanjaa-ish-mirai.github.io/#yolo11) from its dashboard
+card or the searchable sidebar. Ten study sections cover source/paper reading,
+architecture, all five YOLO11 task families, output visualization, annotation,
+end-to-end recipes, commercial provenance, evaluation and a knowledge check.
+It is an optional extension; all original course IDs and the localization graph
+remain unchanged. Notes, section completion and quiz answers use a validated
+optional `yolo11` field in the existing v1 JSON backup.
+
+- **[Paper/source reading](https://sanjaa-ish-mirai.github.io/#yolo11-paper):**
+  the original YOLO paper explains its own detector. Ultralytics documents that
+  YOLO11 has no dedicated formal research paper; YOLO11 architecture claims link
+  to the official `v8.3.0` YAML, blocks, heads, loss and Results implementation.
+- **[Five-task lab](https://sanjaa-ish-mirai.github.io/#yolo11-outputs):**
+  detection boxes, instance masks/cutouts, 17-joint pose, image-level class scores
+  and rotated boxes. The illustrated scene and predictions are explicitly
+  synthetic. Confidence filtering, class-aware axis-aligned NMS, pixel mask
+  membership, alpha compositing and rotation are actually computed. Original
+  pixels stay intact; annotated PNG and illustrative JSON can be downloaded.
+- **[Implementation](https://sanjaa-ish-mirai.github.io/#yolo11-implementation):**
+  choose a task, inspect its complete annotation/configuration, copy the
+  train→validate→predict→export commands and download an executable Python runner.
+  Python runs on the learner's machine; no ML backend or browser inference is
+  introduced into the website.
+- **[Commercial pathway](https://sanjaa-ish-mirai.github.io/#yolo11-commercial):**
+  distinguish licensed pretrained adaptation, random initialization using the
+  same training stack, and an independently implemented model. Code, weights,
+  dataset rights and teacher-output terms need separate provenance. Renaming,
+  fine-tuning, distillation or ONNX conversion does not automatically erase
+  upstream obligations. A downloadable model-card/provenance template records
+  these inputs; the course does not grant a commercial license or produce a
+  production-quality trained model.
+
+Downloadable reference files live in `assets/examples/yolo11/`: `run.py`,
+`requirements.txt` and `model-card-template.json`. The pinned learning baseline
+is Ultralytics 8.3.0, CPU PyTorch 2.4.1 / torchvision 0.19.1, NumPy 1.26.4 and
+ONNX Runtime 1.19.2. The supplied requirements pin key ML dependencies; run
+`pip freeze` after installation to record the complete environment. Use the
+course's two-step CPU install. Select a hardware-compatible PyTorch build for
+CUDA separately. The runner refuses nonempty output directories.
+
+The pinned predictor hardcodes automatic rectangular padding for PyTorch.
+Passing `rect=False` alone does not change it in that release. The runner
+extends the native task predictor's `pre_transform` with native
+`LetterBox(auto=False)` for spatial tasks so PyTorch and fixed-shape ONNX use
+the same input geometry. Native coordinate decoding/scaling stays intact.
+Classification retains its separate native resize/center-crop pipeline.
+
+`assets/js/yolo11-data.js` owns lesson/task data; `yolo11-lab.js` owns the
+illustrated numerical experiment; `yolo11-course.js` owns UI, optional state,
+assessment and recipes. Styles live in `assets/css/yolo11.css`.
+`node tests/yolo11.cjs` checks the new feature. `npm test` includes all existing
+regressions. Reports and screenshots use the `yolo11-` prefix. All learning
+content and downloadable recipes are cached offline and shipped by the existing
+GitHub Pages workflow. Initial ML package/weight downloads require internet.

@@ -1,0 +1,6 @@
+# CPU reference: Python 3.10–3.12; install CPU torch/torchvision first (see course).
+ultralytics==8.3.0
+numpy==1.26.4
+opencv-python==4.10.0.84
+onnx==1.16.2
+onnxruntime==1.19.2

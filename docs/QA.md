@@ -118,3 +118,38 @@ correspondences and horizontal measurement error. LiDAR alignment uses synthetic
 truth and simplified constant-velocity transport; it is not a calibration
 optimizer or complete FAST-LIVO2 implementation. Chromium is tested; Safari and
 Firefox are not independently verified.
+
+## YOLO11 and commercial-model course extension
+
+`tests/yolo11.cjs` verifies exact IoU/NMS and rotation cases, five synthetic output
+schemas, mask membership, source-image preservation, genuine transparent/empty
+cutouts, binary masks, keypoint filtering, task-specific enabled controls and
+JSON/PNG downloads. It checks the 10-section dashboard/search/hash navigation,
+math rendering, all five complete recipes, a full 17-keypoint annotation,
+config/code/template downloads, clipboard action, hidden quiz explanations,
+scoring/retry, notes/completion refresh, safe optional-state sanitation and v1
+JSON backup round trip. Layouts are checked at 1512/1024/768/390/320px; mobile
+navigation, offline course/controls/downloads and browser errors are covered.
+Results: `yolo11-qa-results.json`. Screenshots:
+
+- `screenshots/yolo11-output-desktop.png`
+- `screenshots/yolo11-commercial-desktop.png`
+- `screenshots/yolo11-segmentation-mobile.png`
+
+The downloadable runner is separately exercised in a temporary CPU environment
+with actual official YOLO11n checkpoints for all five tasks, using the package's
+bus sample. Empty OBB output on a non-aerial scene is valid. Detection receives a
+one-epoch COCO8 training/validation smoke check, random-initialization training,
+and ONNX export/inference parity. With matching square-letterbox preprocessing,
+maximum PyTorch/ONNX box-coordinate difference is below 0.001px on that sample.
+These are functionality checks, not model-quality or deployment benchmarks.
+Other task training/export combinations, CUDA/TensorRT/mobile accelerators and
+real deployment accuracy are not comprehensively validated. ML weights,
+training outputs and the third-party sample image are not shipped in the site.
+
+Ultralytics documentation and pinned source were checked on 2026-10-20. The
+course distinguishes the original YOLO research paper from YOLO11's software
+release; it links official task/data/API/source/licensing references. Commercial
+provenance lessons explain vendor terms and independent development choices;
+they do not grant a license or certify a model as proprietary. Browser labs are
+explicitly synthetic and run no neural network.

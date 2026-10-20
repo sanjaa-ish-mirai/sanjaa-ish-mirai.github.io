@@ -1,0 +1,121 @@
+{
+  "testedAt": "2026-10-20T10:55:37.730Z",
+  "browser": "Chromium",
+  "viewports": [
+    1512,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "checks": [
+    "Exact IoU/degenerate boxes, class-aware NMS, confidence rejection, polygon membership, rotated corners and five output schemas",
+    "Dashboard/search/direct section links, 10 lessons, mathematical rendering, preserved legacy state and all five task contracts",
+    "Live NMS/confidence, true alpha cutout and empty mask, binary pixels, keyboard/click inspector, pose/OBB controls, deterministic Reset and JSON/PNG downloads",
+    "All five complete task recipes, full 17-joint label, explicit random-init route, usable copy/config/code/provenance downloads",
+    "Answers hidden until valid submission, accurate scoring/retry, safe notes and completion refresh, v1 JSON round trip, legacy notes and malformed optional-state validation",
+    "Desktop/tablet/390/320px layouts, long code/schema containment, mobile search/navigation and visual screenshots",
+    "Course, task controls and all downloadable implementation assets work offline with zero browser errors"
+  ],
+  "browserErrors": [],
+  "realCPURecipeChecks": {
+    "environment": {
+      "python": "3.12.3",
+      "ultralytics": "8.3.0",
+      "torch": "2.4.1+cpu",
+      "torchvision": "0.19.1+cpu",
+      "numpy": "1.26.4",
+      "onnx": "1.16.2",
+      "onnxruntime": "1.19.2"
+    },
+    "sample": "ultralytics/assets/bus.jpg from pinned package; sample and weights not redistributed",
+    "inference": {
+      "detect": {
+        "fields": [
+          "orig_shape",
+          "names",
+          "boxes"
+        ],
+        "instances": 4,
+        "has_probs": false
+      },
+      "segment": {
+        "fields": [
+          "orig_shape",
+          "names",
+          "boxes",
+          "masks"
+        ],
+        "instances": 5,
+        "has_probs": false
+      },
+      "pose": {
+        "fields": [
+          "orig_shape",
+          "names",
+          "boxes",
+          "keypoints"
+        ],
+        "instances": 2,
+        "has_probs": false
+      },
+      "classify": {
+        "fields": [
+          "orig_shape",
+          "names",
+          "probs"
+        ],
+        "instances": 0,
+        "has_probs": true
+      },
+      "obb": {
+        "fields": [
+          "orig_shape",
+          "names",
+          "obb"
+        ],
+        "instances": 0,
+        "has_probs": false
+      }
+    },
+    "pipeline": {
+      "training": "1 epoch / COCO8 / CPU / imgsz64; functionality only, not performance",
+      "validation": true,
+      "onnx_export": true,
+      "onnx_prediction": true,
+      "square_letterbox": true,
+      "max_coordinate_difference_px": 0.000179290771484375,
+      "random_init_training": "YOLO11n YAML, pretrained=False, 1 epoch / COCO8 / CPU; still Ultralytics stack"
+    },
+    "runnerSHA256": "451d60822dde995eb0c71899d5b54ea74e9d60844fb42971c8c6f051f871fed0"
+  },
+  "existingRegressionChecks": {
+    "qa-results.json": {
+      "testedAt": "2026-10-20T10:55:58.728Z",
+      "passedGroups": 11,
+      "browserErrors": []
+    },
+    "localization-qa-results.json": {
+      "testedAt": "2026-10-20T10:56:05.310Z",
+      "passedGroups": 7,
+      "browserErrors": []
+    },
+    "cv-qa-results.json": {
+      "testedAt": "2026-10-20T10:56:08.420Z",
+      "passedGroups": 11,
+      "browserErrors": []
+    },
+    "geometry-qa-results.json": {
+      "testedAt": "2026-10-20T10:56:14.095Z",
+      "passedGroups": 8,
+      "browserErrors": []
+    }
+  },
+  "staticDeploymentCheck": {
+    "path": "/course/",
+    "passed": true,
+    "offlineDownloads": true,
+    "errors": [],
+    "missing": []
+  }
+}

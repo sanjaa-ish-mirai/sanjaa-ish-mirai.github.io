@@ -1,0 +1,16 @@
+{
+  "status": "template; no model has been trained by this file",
+  "model_name": "REPLACE_WITH_YOUR_MODEL_NAME",
+  "version": "0.1.0",
+  "task": "detect",
+  "intended_use": "Describe deployment domain, objects and users",
+  "excluded_uses_and_known_limits": [],
+  "classes_and_annotation_policy": {},
+  "code": {"repository": "", "commit": "", "license": "", "third_party_notices": []},
+  "initialization": {"type": "pretrained or random", "base_checkpoint": "", "sha256": "", "weight_license_or_contract": ""},
+  "dataset": {"version": "", "manifest_sha256": "", "rights_records": [], "split_unit": "session/camera/site/time", "train": 0, "val": 0, "test": 0, "deduplication_method": ""},
+  "training": {"command": "", "seed": 42, "dependency_lock": "", "hardware": "", "run_id": ""},
+  "evaluation": {"held_out_split": "test", "metrics": {}, "slice_metrics": {}, "threshold_selection_split": "val"},
+  "deployment": {"runtime": "", "input_color_order": "", "resize_and_padding": "", "normalization": "", "output_schema": "", "nms_location": "", "precision": "", "p50_ms": null, "p95_ms": null, "parity_report": "", "rollback_version": ""},
+  "release": {"weight_sha256": "", "export_sha256": "", "approval_record": ""}
+}
