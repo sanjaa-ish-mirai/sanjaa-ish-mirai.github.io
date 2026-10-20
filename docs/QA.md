@@ -89,3 +89,32 @@ DFT is computed directly on a periodic 32×32 input, not a production image FFT.
 
 When validating a working tree with uncommitted QA artifacts, run the original
 report-generating suites in an isolated copy to preserve those local files.
+
+## Interactive 3D geometry extension
+
+`tests/geometry.cjs` adds exact pinhole pixels and field of view, world/camera
+round trips, depth-versus-range, near/behind-camera rejection, rectified metric
+XYZ recovery, biased-ray reprojection, disparity derivative and exact interval
+bounds, nonpositive disparity, and inverse LiDAR/camera pose checks. The known
+102-point calibration has zero reprojection RMS. A +100ms timing offset at +1m/s
+has the same effect as +0.10m camera-X translation; the suite explicitly checks
+that this ambiguity can yield zero residual with incorrect individual values.
+
+Browser checks exercise dashboard and direct links, lazy native disclosures,
+KaTeX and progressive theory, every scientific slider, deterministic Reset,
+orbit presets, drag, arrow-key/Home navigation, zoom, real touch gestures,
+all mapped lessons and sensor studios, unique native control label IDs across
+hidden lesson roots, retained original canvases and notes after refresh. All three
+labs run at 1512, 1024, 768, 390 and 320px with no horizontal page overflow and
+reload offline. `geometry-qa-results.json` records results. Screenshots:
+
+- `screenshots/geometry-projection-desktop.png`
+- `screenshots/geometry-extrinsics-desktop.png`
+- `screenshots/geometry-stereo-mobile.png`
+
+The world viewer is orthographic wireframe; sensor projections are perspective.
+There is no z-buffer or occlusion handling. Stereo assumes rectified known
+correspondences and horizontal measurement error. LiDAR alignment uses synthetic
+truth and simplified constant-velocity transport; it is not a calibration
+optimizer or complete FAST-LIVO2 implementation. Chromium is tested; Safari and
+Firefox are not independently verified.

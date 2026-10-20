@@ -1,6 +1,10 @@
 // Static offline shell. Navigation is network-first so new deployments appear on refresh.
-const CACHE = 'vision-theory-lab-static-v3';
+const CACHE = 'vision-theory-lab-static-v4';
 const ASSETS = [
+  "assets/js/geometry-math.js",
+  "assets/js/geometry-view.js",
+  "assets/js/geometry-labs.js",
+  "assets/css/geometry-labs.css",
   "./",
   "./index.html",
   "assets/js/cv-math.js",

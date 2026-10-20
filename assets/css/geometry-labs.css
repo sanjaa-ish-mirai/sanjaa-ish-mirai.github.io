@@ -1,0 +1,39 @@
+/* 3D laboratories use the existing textbook tokens and native controls. */
+.geo-extension{border-top:1px solid var(--line);padding-top:28px;margin-top:32px;min-width:0}
+.geo-stage{padding:17px;min-width:0}
+.geo-views{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;align-items:start}
+.geo-world,.geo-sensor{min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
+.geo-panel-title{display:flex;justify-content:space-between;gap:8px;padding:12px;font-size:10px;font-weight:600;color:var(--fg);line-height:1.8}
+.geo-panel-title span{font-size:9px;font-weight:400;color:var(--muted)}
+.geo-world>canvas{display:block;width:100%;height:330px;touch-action:none;cursor:grab}
+.geo-world>canvas:active{cursor:grabbing}
+.geo-world>canvas:focus-visible{outline:2px solid var(--teal);outline-offset:-3px}
+.geo-view-toolbar{display:flex;flex-wrap:wrap;gap:5px;padding:12px 12px 0}
+.geo-view-toolbar .btn{font-size:10px;padding:7px 10px;min-height:34px}
+.geo-orbit-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px 12px 0}
+.geo-orbit-controls label{font-size:10px;color:var(--muted);line-height:1.8}
+.geo-orbit-controls input{width:100%;min-width:0;display:block;margin-top:6px;accent-color:var(--blue)}
+.geo-world [data-view-status]{padding:0 12px;font:10px 'JetBrains Mono',monospace;color:var(--teal);line-height:1.8;margin:14px 0 5px}
+.geo-world .geo-hint{font-size:10px;line-height:1.9;color:var(--muted);padding:0 12px;margin:0 0 12px}
+.geo-sensors{display:grid;gap:12px;min-width:0}
+.geo-sensor{margin:0;padding:12px}
+.geo-sensor figcaption{font-size:10px;color:var(--fg);line-height:1.8;margin-bottom:10px;font-weight:500}
+.geo-sensor canvas{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:5px}
+.geo-sensor p{font:9px 'JetBrains Mono',monospace;color:var(--muted);line-height:1.8;margin:10px 0 0}
+.geo-legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin:17px 0 10px}
+.geo-legend span{font-size:10px;color:var(--muted);line-height:1.8}
+.geo-legend span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--key);margin-right:7px}
+.geo-convention{font-size:10px;line-height:1.9;color:var(--muted);padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.geo-controls{grid-template-columns:repeat(2,minmax(0,1fr));margin:18px 0;padding:16px;gap:20px}
+.geo-controls label{font-size:11px;line-height:1.9;align-items:start;gap:10px}
+.geo-controls output{font:11px 'JetBrains Mono',monospace;color:var(--teal);flex:none}
+.geo-controls input{width:100%;min-width:0}
+.geo-live-equation{font:11px 'JetBrains Mono',monospace;color:var(--fg);line-height:2;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:13px;overflow-wrap:anywhere}
+.geo-explanation{font-size:12px;line-height:2;color:var(--muted);margin-bottom:0}
+.geo-theory{display:grid;gap:8px;margin:20px 0}
+.geo-theory details{padding:13px;background:var(--bg);border:1px solid var(--line);border-radius:6px}
+.geo-theory summary{font-size:12px;line-height:1.8;color:var(--fg);cursor:pointer}
+.geo-theory p{font-size:12px;line-height:2;color:var(--muted);margin:13px 0 0}
+@media(max-width:1300px){.geo-views{grid-template-columns:1fr}.geo-world>canvas{height:310px}.geo-sensors{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}}
+@media(max-width:760px){.geo-stage{padding:12px}.geo-world>canvas{height:270px}.geo-sensors{grid-template-columns:1fr}.geo-controls{grid-template-columns:1fr;padding:13px}.geo-experiment{padding:14px}.geo-orbit-controls{gap:7px}.geo-orbit-controls label{font-size:9px}.geo-panel-title{display:block}.geo-panel-title span{display:block}.geo-legend span{font-size:10px}.geo-sensor figcaption{font-size:11px}.geo-live-equation{font-size:10px}.geo-theory summary{font-size:11px}.geo-experiment .tool-line .btn{font-size:10px}}
+@media print{.geo-view-toolbar,.geo-orbit-controls,.geo-controls,.geo-stage .tool-line,.geo-hint{display:none!important}.geo-views{grid-template-columns:1fr 1fr}.geo-world,.geo-sensor{break-inside:avoid}}

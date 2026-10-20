@@ -1,0 +1,47 @@
+{
+  "testedAt": "2026-10-20T09:32:02.080Z",
+  "browser": "Chromium",
+  "viewports": [
+    1512,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "checks": [
+    "Pinhole golden pixels/FOV, inverse frame transforms, inverse-depth scaling, depth vs range, behind/near/out-of-sensor cases",
+    "Rectified stereo reconstructs metric 3D, biased rays reproject exactly, sensitivity/exact intervals and zero/negative disparity rejection",
+    "LiDAR/camera inverse pose, 102-point zero-residual truth, ms→m transport and explicit tx/time ambiguity",
+    "Three dashboard/direct links, native lazy disclosure, equations/derivations, drag+keyboard orbit, presets+zoom, every science slider and deterministic Reset",
+    "Visible behind-camera, invalid disparity/out-of-sensor warnings, truth alignment and timing/calibration ambiguity",
+    "All lesson/sensor-studio placements, coexisting Day 10 tools, unique label IDs, original canvas and note refresh preserved",
+    "All open 3D tools at 1512/1024/768/390/320px without page overflow, real mobile touch orbit and desktop/mobile screenshots",
+    "All three deep links reload and compute offline; zero browser errors or missing assets"
+  ],
+  "browserErrors": [],
+  "failedAssets": [],
+  "staticDeploymentCheck": {
+    "checkedAt": "2026-10-20T09:32:42.897Z",
+    "path": "/course/",
+    "passed": true,
+    "errors": [],
+    "missing": []
+  },
+  "originalRegressionChecks": {
+    "qa-results.json": {
+      "testedAt": "2026-10-20T09:30:03.072Z",
+      "passedGroups": 11,
+      "browserErrors": []
+    },
+    "localization-qa-results.json": {
+      "testedAt": "2026-10-20T09:30:09.822Z",
+      "passedGroups": 7,
+      "browserErrors": []
+    },
+    "cv-qa-results.json": {
+      "testedAt": "2026-10-20T09:30:12.729Z",
+      "passedGroups": 11,
+      "browserErrors": []
+    }
+  }
+}

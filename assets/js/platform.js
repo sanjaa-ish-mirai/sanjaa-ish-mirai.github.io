@@ -112,6 +112,7 @@
       <div class="concept-map" aria-label="Topic relationships"><span>Image signals</span><i>→</i><span>Features</span><i>→</i><span>Geometry & depth</span><i>→</i><span>Motion & pose</span><i>→</i><span>Learned representations</span></div><div class="dashboard-foot"><span>VISION THEORY LAB · Understand through visualization.</span><span>Progress stays on your device. Export a backup to keep it.</span></div>`;
     renderLocalizationDashboard();
     CVLabs.dashboard($('cvDashboardCatalog'),openPixelLab);
+    GeometryLabs.dashboard($('cvDashboardCatalog'),openGeometryLab);
     $('continueLearning').addEventListener('click',()=>{if(state.lastLearningNode&&LocalizationCourse.find(state.lastLearningNode)){openLearningNode(state.lastLearningNode);return;}const d=state.lastDay;showDay(d);const anchor=preferences.sections[d];if(anchor)document.getElementById(anchor)?.scrollIntoView({block:'start'});});
     $('dashboard').querySelectorAll('[data-open-day]').forEach(b=>b.addEventListener('click',()=>showDay(Number(b.dataset.openDay))));
     $('previewFrequency').addEventListener('input',drawDashboardSignal);drawDashboardSignal();
@@ -185,6 +186,7 @@
       navEl.querySelector('[data-lesson-prev]').addEventListener('click',()=>d>1?showDay(d-1):showDashboard());navEl.querySelector('[data-lesson-next]').addEventListener('click',()=>d<30?showDay(d+1):showDashboard());root.append(navEl);
     }
     CVLabs.mount(root,d);
+    GeometryLabs.mount(root,{day:d});
     addNumericCheck(root,d);
     if(d>2)enhanceAdvancedLab(d);
     if(!root.querySelector('.lesson-summary')){
@@ -295,10 +297,14 @@
   });
   let scrollPending=false;window.addEventListener('scroll',()=>{if(scrollPending||(view!=='lesson'&&view!=='studio'))return;scrollPending=true;requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-innerHeight;$('readingFill').style.width=(max>0?Math.min(100,scrollY/max*100):100)+'%';scrollPending=false;});},{passive:true});
   document.addEventListener('click',()=>{if(view==='lesson')updateOutlineProgress();});
-  window.addEventListener('hashchange',()=>{const match=/^#day(\d+)$/.exec(location.hash);if(match)showDay(Number(match[1]));else if(location.hash==='#dashboard')showDashboard();else if(location.hash.startsWith('#cv-'))openPixelLab(location.hash.slice(4));else if(location.hash==='#localization')showLocalizationPath();else if(location.hash.startsWith('#learn-'))openLearningNode(location.hash.slice(7));});
+  window.addEventListener('hashchange',()=>{const match=/^#day(\d+)$/.exec(location.hash);if(match)showDay(Number(match[1]));else if(location.hash==='#dashboard')showDashboard();else if(location.hash.startsWith('#cv-'))openPixelLab(location.hash.slice(4));else if(location.hash.startsWith('#geo-'))openGeometryLab(location.hash.slice(5));else if(location.hash==='#localization')showLocalizationPath();else if(location.hash.startsWith('#learn-'))openLearningNode(location.hash.slice(7));});
   function openPixelLab(id){
     const spec=CVLabs.specs.find(spec=>spec.id===id);if(!spec)return;
     showDay(spec.days[0]);CVLabs.open($('plannedLesson'),id);history.replaceState(null,'','#cv-'+id);
+  }
+  function openGeometryLab(id){
+    const spec=GeometryLabs.specs.find(spec=>spec.id===id);if(!spec)return;
+    showDay(spec.days[0]);GeometryLabs.open($('plannedLesson'),id);history.replaceState(null,'','#geo-'+id);
   }
   function openLearningNode(id){
     if(/^day\d+$/.test(id)){showDay(Number(id.slice(3)));return;}
@@ -307,6 +313,7 @@
     state.lastLearningNode=id;save();sectionObserver?.disconnect();history.replaceState(null,'','#learn-'+id);
     $('topbarDay').textContent='Localization / '+unit.code;document.title=unit.title+' · Vision Theory Lab';
     LocalizationCourse.render($('localizationLesson'),id,{open:openLearningNode,path:showLocalizationPath,change:()=>{renderStudioOutline();nav();}});
+    GeometryLabs.mount($('localizationLesson'),{unit:id});
     renderStudioOutline();closeDrawers();nav();window.scrollTo({top:0,behavior:'instant'});const title=$('localizationLesson').querySelector('h1');title.tabIndex=-1;title.focus({preventScroll:true});
   }
   function renderLocalizationNavigation(query=''){
@@ -359,7 +366,8 @@
   renderQuiz();
   const initialHash=location.hash;
   const initialDay=/^#day(\d+)$/.exec(initialHash);
-  if(initialHash.startsWith('#cv-')&&CVLabs.specs.some(spec=>spec.id===initialHash.slice(4)))openPixelLab(initialHash.slice(4));
+  if(initialHash.startsWith('#geo-')&&GeometryLabs.specs.some(spec=>spec.id===initialHash.slice(5)))openGeometryLab(initialHash.slice(5));
+  else if(initialHash.startsWith('#cv-')&&CVLabs.specs.some(spec=>spec.id===initialHash.slice(4)))openPixelLab(initialHash.slice(4));
   else if(initialHash==='#localization')showLocalizationPath();
   else if(initialHash.startsWith('#learn-')&&LocalizationCourse.find(initialHash.slice(7)))openLearningNode(initialHash.slice(7));
   else if(initialDay&&Number(initialDay[1])>=1&&Number(initialDay[1])<=30)showDay(Number(initialDay[1]));

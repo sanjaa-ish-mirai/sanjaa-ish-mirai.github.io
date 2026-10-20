@@ -225,3 +225,51 @@ lessons, mobile layouts, note persistence and offline operation. Its report is
 [edge pipeline](docs/screenshots/cv-edges-desktop.png),
 [stereo cost curve](docs/screenshots/cv-stereo-desktop.png),
 [mobile Harris](docs/screenshots/cv-harris-mobile.png).
+
+## Interactive 3D geometry laboratories
+
+The dashboard's **3D Geometry** collection connects the 3D scene, perspective
+sensor image, equations and live metric outputs. The original 42 lessons/studios,
+progress IDs, notes and v1 backup format are preserved.
+
+| Laboratory | Lesson placements | Experiment |
+| --- | --- | --- |
+| [Camera projection](https://sanjaa-ish-mirai.github.io/#geo-projection) | Days 9, 10; Sensor models studio | Move a 3D point/camera, vary focal length, inspect camera coordinates, pixel coordinates, field of view and depth versus range |
+| [Stereo triangulation](https://sanjaa-ish-mirai.github.io/#geo-triangulation) | Days 11, 13, 14 | Inspect two rays, change baseline and pixel error, reconstruct XYZ, compare exact depth intervals and local sensitivity |
+| [LiDAR–RGB extrinsics](https://sanjaa-ish-mirai.github.io/#geo-extrinsics) | Days 8, 10; Sensor models, Deskew, FAST-LIVO2 studios | Align 102 synthetic points against reference pixels; compare inverse camera pose, reprojection RMS and timestamp/translation ambiguity |
+
+Drag/touch the world canvas or use arrow keys to orbit; **Home** restores the
+view. Orbit/Front/Top/Side presets and explicit view yaw/pitch/zoom sliders offer
+keyboard alternatives. View controls leave the scientific parameters unchanged.
+**Reset experiment & view** restores both. Each studio has three progressive
+theory disclosures, a prediction/explanation exercise, units and model limits.
+
+All teaching frames use right-handed optical coordinates: **+X right, +Y down,
++Z forward**. Real LiDAR native axes must be converted explicitly. World units
+are meters; image coordinates and focal length are pixels on a 640×480 sensor.
+The world viewer is an orthographic wireframe with a 1m grid, not an RGB rendering
+or occlusion engine. Sensor panels compute actual perspective projection.
+Behind-camera/near-plane points, out-of-sensor correspondences and nonpositive
+stereo disparity produce explicit warnings instead of trusted depth.
+
+LiDAR alignment uses known synthetic calibration and an illustrative constant
+relative point velocity of +1m/s along camera X. The truth button copies known
+parameters; it is not an optimizer. Translation and timing can compensate each
+other in this scene, so zero reprojection RMS does not prove correct calibration.
+The ±0.5px stereo interval is a bounded disparity example, not a statistical
+confidence interval. No full 6DoF estimator, IMU integration or dense depth solver
+is implied.
+
+Implementation ownership:
+
+- `assets/js/geometry-math.js`: metric transforms, projection, triangulation and reprojection measurements.
+- `assets/js/geometry-view.js`: shared responsive, event-driven Canvas 3D orbit renderer; no animation loop or extra dependency.
+- `assets/js/geometry-labs.js`: lesson content, controls, linked sensor views and lazy integration.
+- `assets/css/geometry-labs.css`: responsive laboratory layout.
+- `tests/geometry.cjs`: numerical reference cases, controls, pointer/touch/keyboard interaction, responsive sizes and offline reloads.
+
+Run `node tests/geometry.cjs` against the local server for the focused suite, or
+`npm test` for all suites. Its report is `docs/geometry-qa-results.json`; desktop
+and mobile screenshots use the `geometry-` prefix. These assets are cached by the
+service worker and are published by the existing GitHub Pages workflow without
+a build step or production package installation.
