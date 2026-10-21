@@ -153,3 +153,35 @@ release; it links official task/data/API/source/licensing references. Commercial
 provenance lessons explain vendor terms and independent development choices;
 they do not grant a license or certify a model as proprietary. Browser labs are
 explicitly synthetic and run no neural network.
+
+## YOLO11 native blocks, loss and GPU extension
+
+`tests/yolo11-deep.cjs` checks the genuine 24-block trace, parameter conservation,
+24 graph nodes, actual skip edges, pre-mutation Detect input shapes, 144-channel
+raw heads, 84-channel decoded output, recorded class score and full DFL → anchor
+→ stride → pixel-box reconstruction. Scalar BCE/CIoU/DFL/weighted examples are
+compared with independent native CUDA reference values, not mirrored test logic.
+
+Browser checks cover lazy trace loading, every block/feature/primitive list,
+keyboard and selector navigation, valid trace import, rejected malformed graphs,
+PNG-only image safety, escaped user labels, preservation after a rejected import,
+all scalar controls and a loss-decreasing logit step. Existing stable sections,
+notes, 1512/1024/768/390/320px layouts and offline trace/code reloads are checked.
+New screenshots use `yolo11-forward-` and `yolo11-loss-` prefixes; evidence is in
+`yolo11-deep-qa-results.json`.
+
+Actual execution uses RTX 5080 (compute capability 12.0), torch 2.7.1/cu128,
+torchvision 0.22.1, Ultralytics 8.3.200 and CuPy 13.6.0. The official pretrained
+YOLO11n checkpoint is downloaded locally, not shipped in GitHub Pages. A GPU
+forward pass generated the bundled evidence from an original illustration.
+CuPy/PyTorch DLPack storage sharing and sigmoid parity run on the actual device.
+Random-init GPU training, validation and checkpoint writing use a two-image
+training/two-image validation fixture with the full COCO80 class schema; FP32 and
+the default AMP path are exercised. This is not the real COCO2017 image dataset
+or a model-quality benchmark. Full COCO2017 training has not been performed.
+
+The original CPU environment remains distinct. Native operator definitions and
+loss/assignment references for this studio are pinned to v8.3.200. One exported
+trace shows four channels/block, not every channel or every internal edge; all
+runtime leaf operators and their parameter counts are inspectable. The static
+viewer does not execute an uploaded image: the downloadable inspector does.

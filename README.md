@@ -330,3 +330,93 @@ assessment and recipes. Styles live in `assets/css/yolo11.css`.
 regressions. Reports and screenshots use the `yolo11-` prefix. All learning
 content and downloadable recipes are cached offline and shipped by the existing
 GitHub Pages workflow. Initial ML package/weight downloads require internet.
+
+## YOLO11 blocks, losses and COCO80 GPU training
+
+The existing **Architecture** and **Implementation** sections now include a real
+forward-pass explorer, loss workbook and downloadable CUDA training kit:
+
+- [24-block explorer and loss workbook](https://sanjaa-ish-mirai.github.io/#yolo11-architecture)
+- [COCO80/GPU training kit](https://sanjaa-ish-mirai.github.io/#yolo11-implementation)
+
+Every outer block has its actual incoming edges, input/output tensor shapes,
+parameter count, four recorded feature channels and a complete nested leaf
+operator list. Conv/BN/SiLU, Bottleneck/C3k/C3k2, SPPF, C2PSA attention/FFN,
+upsampling, concatenation and Detect branches have source-linked explanations.
+The sample records **24 blocks, 198 leaf-operator records and 2,624,080
+parameters** from pretrained YOLO11n with an original illustrated input. Its
+320×320 forward output is `(1,84,2100)`; raw per-scale heads have 144 channels.
+A candidate inspector shows actual class logits/sigmoid, all 4×16 distance
+logits/probabilities, expectation, anchor/stride and decoded pixel box.
+
+These are real network activations, not manually generated feature pictures.
+The bundled illustrated scene produces zero detections at the stated threshold;
+this is reported rather than replaced with fabricated boxes. Tile brightness is
+independently normalized and does not identify an object class. The website is
+a static viewer, not a neural inference backend. For your own image, run:
+
+```sh
+python inspect_model.py --source my-image.jpg --model yolo11n.pt --device 0 --out my-trace.json
+```
+
+Import the JSON with **Import your trace JSON**. Import remains browser-local;
+no image is uploaded to a server. Only bounded PNG previews, valid shapes,
+topological edges and compatible COCO80 trace data are accepted. Invalid imports
+preserve the previous trace. The exported recording synchronizes tensors for
+inspection, so it is not a throughput benchmark.
+
+The loss workbook computes stable BCEWithLogits, sigmoid gradients, CIoU,
+16-bin softmax/DFL interpolation, weighted loss terms, empty-target behavior and
+a real scalar class-logit descent step. It explains TAL assignment, foreground
+weights, normalization across all locations/classes, batch reduction and the
+coupling of real box/DFL logits. Its small independent examples are **not the
+training loss of the unlabeled forward image**. Native PyTorch/Ultralytics CUDA
+reference values are retained in `tests/yolo11-loss-reference.json`.
+
+### Separate GPU environment
+
+The original CPU recipe is preserved. RTX 50-series/Blackwell uses a separate
+verified environment: **torch 2.7.1/cu128, torchvision 0.22.1, Ultralytics
+8.3.200, CuPy 13.6.0**. Download the new files from `assets/examples/yolo11/`:
+`requirements-gpu.txt`, `inspect_model.py`, `train_coco.py`, `cupy_bridge.py` and
+`coco-local.yaml`. Install PyTorch first using the CUDA 12.8 index shown in the
+course, then install `requirements-gpu.txt`; retain `pip freeze` for provenance.
+
+PyTorch already runs YOLO forward, loss, autograd and optimization on CUDA.
+CuPy is an additional GPU array tool, not a drop-in replacement for PyTorch's
+training engine. `cupy_bridge.py` actually checks zero-copy DLPack pointers,
+numerical parity and aliasing on the GPU. Its tensors are detached: an autograd
+graph does not pass through DLPack, and mutating a shared tensor during backward
+is unsafe. CPU image decode/serialization may still use OpenCV/NumPy.
+
+### COCO80 training
+
+COCO80 means **80 categories**, not 80 images. Prepare the full COCO2017 local
+train/val images and converted YOLO labels, and edit the absolute path in the
+complete `coco-local.yaml` template. The trainer validates the official class
+order, image/label directories, device and a CUDA operation. It rejects dataset
+YAML download hooks and existing output runs. Without `--execute` it only prints
+the reviewed plan. Example:
+
+```sh
+python train_coco.py --data /data/coco-local.yaml --init scratch --device 0 --epochs 300 --batch 8 --out runs/coco11n-scratch
+python train_coco.py --data /data/coco-local.yaml --init scratch --device 0 --epochs 300 --batch 8 --out runs/coco11n-scratch --execute
+```
+
+`scratch` builds random weights from YAML; `finetune` loads the pretrained `.pt`.
+Both use the same licensed Ultralytics stack. In this GPU environment, native
+`yolo detect val` and `yolo detect predict ... device=0` evaluate/use the learned
+checkpoint; the original `run.py` belongs to the separate CPU reference environment.
+Checkpoints, curves, validation
+metrics and `course-plan.json` are written to the run. Resume an interrupted run with
+`yolo train resume model=.../weights/last.pt`. A completed optimizer-stripped
+checkpoint requires a new training/fine-tuning run for further optimization. Batch8/640 is a trial setting for a
+16GB device, not a VRAM or training-duration guarantee. Full COCO training is not
+started by the website, preview or tests.
+
+`artifacts/yolo11/` is ignored by Git and excluded from deployment. It may hold
+the downloaded official pretrained checkpoint, original input illustration and
+bounded smoke-run checkpoints locally. Synthetic 2-train/2-val one-epoch smoke
+runs verify the GPU pipeline; they are not COCO2017 pretraining and provide no
+useful detector-quality claim. Full training needs the learner's dataset path
+and measured compute plan.

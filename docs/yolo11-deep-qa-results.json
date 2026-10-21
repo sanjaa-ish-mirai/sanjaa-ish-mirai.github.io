@@ -1,0 +1,119 @@
+{
+  "testedAt": "2026-10-21T03:47:11.245Z",
+  "browser": "Chromium",
+  "viewports": [
+    1512,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "checks": [
+    "Scalar BCE/CIoU/DFL and weighted total match independently recorded native PyTorch/Ultralytics reference, including extreme logits and clamp",
+    "Real 24-block trace parameter/skip/shape conservation, pre-mutation Detect inputs, class sigmoid/DFL decoding and strict imported trace validation",
+    "Lazy real trace, all 24 block details/feature maps, exact connected parents, primitive operators, previous/next and keyboard DAG selection",
+    "Valid user trace import, malformed-import data retention, escaped untrusted labels and real bundled-trace reload",
+    "Every scalar control, true class-logit gradient descent, 16 DFL bins, empty-target contributions and deterministic Reset",
+    "Complete GPU/COCO80/CuPy code downloads, unchanged course IDs and persistent notes",
+    "Desktop/tablet/390/320px layouts, contained scrollable DAG/operator tables and actual forward/loss screenshots",
+    "Offline real trace, block/loss controls and GPU-code downloads with zero browser errors"
+  ],
+  "browserErrors": [],
+  "gpuExecution": {
+    "gpu": "NVIDIA GeForce RTX 5080",
+    "compute_capability": [
+      12,
+      0
+    ],
+    "torch": "2.7.1+cu128",
+    "ultralytics": "8.3.200",
+    "cupy": "13.6.0",
+    "dlpack": {
+      "actual_shared_pointer_verified": true,
+      "sigmoid_max_error": 0,
+      "aliasing_verified": true
+    },
+    "actual_cuda_amp_backward_step": true,
+    "preflight": {
+      "plan_only_no_run_directory": true,
+      "download_hook_rejected": true,
+      "incorrect_class_order_rejected": true,
+      "existing_output_rejected": true
+    },
+    "training_smoke": {
+      "gpu-smoke-run": {
+        "one_epoch_completed": true,
+        "synthetic_images": {
+          "train": 2,
+          "val": 2
+        },
+        "finite_loss_components": {
+          "train/box_loss": 0.34541,
+          "train/cls_loss": 0.43506,
+          "train/dfl_loss": 0.20534,
+          "val/box_loss": 2.59428,
+          "val/cls_loss": 2.48173,
+          "val/dfl_loss": 1.54775
+        },
+        "checkpoint_sha256": "e191d4b7e12b9228a536fc0669ee2ad7a2d86a898be5b6446b1a7f911ae4586b"
+      },
+      "gpu-amp-smoke-run": {
+        "one_epoch_completed": true,
+        "synthetic_images": {
+          "train": 2,
+          "val": 2
+        },
+        "finite_loss_components": {
+          "train/box_loss": 0.34413,
+          "train/cls_loss": 0.4341,
+          "train/dfl_loss": 0.20456,
+          "val/box_loss": 2.58806,
+          "val/cls_loss": 2.14062,
+          "val/dfl_loss": 1.54423
+        },
+        "checkpoint_sha256": "7862d24e81e782a1a9017c4c790f2d75601ce3d8dcc1ce183b166dd24d1c0883"
+      }
+    },
+    "full_COCO2017_training": false,
+    "official_pretrained": {
+      "file": "artifacts/yolo11/pretrained/yolo11n.pt",
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    },
+    "scope": "Functionality only. Synthetic fixture is not COCO2017 and demonstrates no useful mAP/quality.",
+    "native_yolo_gpu_predict_saved": true
+  },
+  "existingRegressionChecks": {
+    "qa-results.json": {
+      "testedAt": "2026-10-21T03:43:58.960Z",
+      "passedGroups": 11,
+      "browserErrors": []
+    },
+    "localization-qa-results.json": {
+      "testedAt": "2026-10-21T03:44:05.790Z",
+      "passedGroups": 7,
+      "browserErrors": []
+    },
+    "cv-qa-results.json": {
+      "testedAt": "2026-10-21T03:44:08.888Z",
+      "passedGroups": 11,
+      "browserErrors": []
+    },
+    "geometry-qa-results.json": {
+      "testedAt": "2026-10-21T03:44:14.801Z",
+      "passedGroups": 8,
+      "browserErrors": []
+    },
+    "yolo11-qa-results.json": {
+      "testedAt": "2026-10-21T03:44:17.336Z",
+      "passedGroups": 7,
+      "browserErrors": []
+    }
+  },
+  "staticDeploymentCheck": {
+    "path": "/course/",
+    "passed": true,
+    "offlineDownloads": true,
+    "errors": [],
+    "missing": []
+  }
+}

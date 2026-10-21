@@ -28,3 +28,6 @@ _site/
 
 # Keep the test dependency lock reproducible.
 !package-lock.json
+
+# Local YOLO weights / training runs are not part of the static website.
+/artifacts/yolo11/

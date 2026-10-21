@@ -1,0 +1,6 @@
+# Install torch==2.7.1 torchvision==0.22.1 from the cu128 index FIRST.
+# Separate environment from the original 8.3.0 / torch 2.4 CPU course recipe.
+ultralytics==8.3.200
+numpy==1.26.4
+opencv-python==4.10.0.84
+cupy-cuda12x==13.6.0
